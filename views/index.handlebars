@@ -16,21 +16,22 @@
 		{{#if messages.info}}
    		 <p class="error"> {{messages.info}}<p>
 		{{/if}}
-
 		<input class="nameString" name="string" id="nameEntered" value="" placeholder="enter your name here" >
 		<button class="greetBtn" id="greet" type="submit">Greet Me!</button>
 		<div>
 			<br>
+		<div class="radio-item">
 		<input type="radio" id="buttons" value= "English" name="lang" checked>
-		<label for="eng">English</label>
+		<label for="eng" >English</label>
 
 		<input type="radio" id="buttons" value= "Español" name="lang">
-		<label for="esp">Spanish</label>
+		<label for="esp" >Spanish</label>
 
 		<input type="radio" id="buttons" value= "Japanese" name="lang">
-		<label for="jap">Japanese</label>
+		<label for="jap" >Japanese</label>
+		</div>
 	</div>
-		<p id="theGreet">{{{greet}}}</p>
+		<p id="theGreet" class="greet">{{{greet}}}</p>
 		
 		<div>
 		<h1 id="theCount">{{counter}}</h1>      

@@ -34,7 +34,7 @@ module.exports = function TheGreetFunction() {
     // if username is not empty increment each name by 1
     function namesStored(name) {
         if (name !== "") {
-            const userName = name.toUpperCase();
+            const userName = name.toLowerCase();
             if (greetObject[userName] === undefined) {
                 greetObject[userName] = 0
             }
@@ -44,7 +44,7 @@ module.exports = function TheGreetFunction() {
 
     // return how many times the name was entered(value)
     function getCount(value) {
-        return greetObject[value.toUpperCase()]
+        return greetObject[value];
     }
 
     // return the length of the how many names are entered
