@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Greetings</title>
+</head>
+<body>
+    <div class="zone container">
+		<nav class="zone header">
+		<h1>The Greetings Counter</h1>
+		</nav>
+	<form action="/greeting" method="POST">
+
+
+		{{#if messages.info}}
+   		 <p class="error"> {{messages.info}}<p>
+		{{/if}}
+
+		<input class="nameString" name="string" id="nameEntered" value="" placeholder="enter your name here" >
+		<button class="greetBtn" id="greet" type="submit">Greet Me!</button>
+		<div>
+			<br>
+		<input type="radio" id="buttons" value= "English" name="lang" checked>
+		<label for="eng">English</label>
+
+		<input type="radio" id="buttons" value= "Español" name="lang">
+		<label for="esp">Spanish</label>
+
+		<input type="radio" id="buttons" value= "Japanese" name="lang">
+		<label for="jap">Japanese</label>
+	</div>
+		<p id="theGreet">{{{greet}}}</p>
+		
+		<div>
+		<h1 id="theCount">{{counter}}</h1>      
+		</div>   
+  		<button id='peopleGreetedButton' type="button" name="link"><a href="/greeted">People Greeted</a></button>
+		<button onclick="deleteItems()">Clear</button>
+    </form>
+	
+        
+	</div>
+</body>
+</html>

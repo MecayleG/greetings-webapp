@@ -1,0 +1,63 @@
+	            body {
+	            font-family: 'Merriweather', serif;
+	        }
+	        
+	        .nameString {
+	            /* height: 100px; */
+	            /* width: 100px; */
+	            padding: 10px;
+	        }
+	        
+	        .error {
+	            color: crimson;
+	        }
+	        
+	        .container {
+	            width: 320px;
+	            height: 420px;
+	            background: #fff;
+	            color: #000;
+	            top: 50%;
+	            left: 50%;
+	            position: absolute;
+	            transform: translate(-50%, -50%);
+	            box-sizing: border-box;
+	            border: 1px solid black;
+	            padding: 10px;
+	        }
+	        
+	        button {
+	            background-color: #00ffff;
+	            border: 0.5px black solid;
+	            border-radius: 5px;
+	            font-size: 14px;
+	            padding: 8px;
+	            cursor: pointer;
+	        }
+	        
+	        @media only screen and (min-device-width: 360px) and (max-device-width: 640px) and (-webkit-min-device-pixel-ratio: 2) {
+	            body {
+	                font-size: 40px;
+	            }
+	            .nameString {
+	                border: 0.5px solid black;
+	                height: 50px: width 200px;
+	                padding: 30px;
+	            }
+	            button {
+	                padding: 20px;
+	            }
+	            .container {
+	                width: 820px;
+	                height: 920px;
+	                background: #fff;
+	                color: #000;
+	                top: 50%;
+	                left: 50%;
+	                position: absolute;
+	                transform: translate(-50%, -50%);
+	                box-sizing: border-box;
+	                border: 1px solid black;
+	                padding: 10px;
+	                text-align: center;
+	            }
