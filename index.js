@@ -42,12 +42,15 @@ app.get('/', function(req, res) {
     res.render('index')
 });
 
-app.post('/greeting', function(req, res) {
+app.post('/greeting', async function(req, res) {
     let radio = req.body.lang
     let name = req.body.string
     let flash = greetings.flashMessage(name)
     let getGreet = greetings.greet(radio, name)
     let count = greetings.counter();
+    await greetings.adding({
+        name
+    });
     if (flash) {
         req.flash('info', 'enter a name');
     }

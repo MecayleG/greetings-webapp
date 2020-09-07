@@ -1,6 +1,17 @@
 module.exports = function TheGreetFunction() {
+    const pg = require("pg");
+    const Pool = pg.Pool;
+    const connectionString = process.env.DATABASE_URL || 'postgresql://root:pg123@localhost:5432/users';
+
+    const pool = new Pool({
+        connectionString
+    });
     let greetObject = {};
 
+    async function adding(params) {
+        const INSERT_QUERY = "insert into users (name) values ($1)";
+        await pool.query(INSERT_QUERY, [params.name]);
+    }
     // return the keys of the object
     function getNames() {
         return Object.keys(greetObject);
@@ -53,6 +64,7 @@ module.exports = function TheGreetFunction() {
         return count.length;
     }
     return {
+        adding,
         getNames,
         flashMessage,
         greet,
