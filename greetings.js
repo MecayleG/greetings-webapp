@@ -31,7 +31,7 @@ module.exports = function TheGreetFunction() {
     // }
 
     // Get input from user and greet in language selected
-    function greet(langSelected, theName) {
+    async function greet(langSelected, theName) {
         let greet;
 
         if (!langSelected || !theName) {
