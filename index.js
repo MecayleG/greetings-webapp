@@ -38,8 +38,12 @@ app.use(session({
 
 app.use(flash());
 
-app.get('/', function(req, res) {
-    res.render('index')
+app.get('/', async function(req, res) {
+    let count = await greetings.counter();
+
+    res.render('index', {
+        counter: count
+    })
 });
 
 app.post('/greeting', async function(req, res) {
@@ -47,10 +51,11 @@ app.post('/greeting', async function(req, res) {
     let name = req.body.string
     let flash = greetings.flashMessage(name)
     let getGreet = greetings.greet(radio, name)
-    let count = greetings.counter();
-    await greetings.adding({
+    let count = await greetings.counter();
+    await greetings.addToDatabase({
         name
-    });
+    })
+
     if (flash) {
         req.flash('info', 'enter a name');
     }
@@ -60,16 +65,16 @@ app.post('/greeting', async function(req, res) {
     });
 });
 
-app.get('/greeted', function(req, res) {
-    let allNames = greetings.getNames();
+app.get('/greeted', async function(req, res) {
+    let allNames = await greetings.getNames();
     res.render('actions', {
         name: allNames
     })
 });
 
-app.get('/counter/:username', function(req, res) {
+app.get('/counter/:username', async function(req, res) {
     let users = req.params.username
-    let count = greetings.getCount(users);
+    let count = await greetings.eachNameCount(users);
     res.render('people', {
         name: users,
         counter: count

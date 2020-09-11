@@ -6,22 +6,29 @@ module.exports = function TheGreetFunction() {
     const pool = new Pool({
         connectionString
     });
-    let greetObject = {};
-
-    async function adding(params) {
-        const INSERT_QUERY = "insert into users (name) values ($1)";
-        await pool.query(INSERT_QUERY, [params.name]);
-    }
-    // return the keys of the object
-    function getNames() {
-        return Object.keys(greetObject);
-    }
-    // used for initiating flash message in index.js
-    function flashMessage(input) {
-        if (input === "") {
-            return "enter a name"
+    //insert name into database and increment counter if name is entered again 
+    async function addToDatabase(params) {
+        const userName = params.name.toLowerCase();
+        if (userName !== "") {
+            const selectQuery = await pool.query('select name from users where name=$1', [userName])
+            if (selectQuery.rowCount === 0) {
+                await pool.query('insert into users (name,counter) values ($1, 0)', [userName])
+            }
+            await pool.query('update users set counter=counter+1 where name=$1', [userName])
         }
+
     }
+    // return the names from the database
+    async function getNames() {
+        const names = await pool.query(`select name from users`)
+        return names.rows
+    }
+    // get counter of individual names
+    async function eachNameCount(nameEntered) {
+        const getCount = await pool.query(`select counter from users where name = $1`, [nameEntered])
+        return getCount.rows[0].counter
+    }
+    // }
 
     // Get input from user and greet in language selected
     function greet(langSelected, theName) {
@@ -30,8 +37,6 @@ module.exports = function TheGreetFunction() {
         if (!langSelected || !theName) {
             return "";
         }
-        namesStored(theName)
-
         if (langSelected === "English") {
             greet = "Hello, " + theName
         } else if (langSelected === "Español") {
@@ -42,34 +47,24 @@ module.exports = function TheGreetFunction() {
         return greet;
     }
 
-    // if username is not empty increment each name by 1
-    function namesStored(name) {
-        if (name !== "") {
-            const userName = name.toLowerCase();
-            if (greetObject[userName] === undefined) {
-                greetObject[userName] = 0
-            }
-            greetObject[userName]++
+    // used for initiating flash message in index.js
+    function flashMessage(input) {
+        if (input === "") {
+            return "enter a name"
         }
     }
-
-    // return how many times the name was entered(value)
-    function getCount(value) {
-        return greetObject[value];
-    }
-
     // return the length of the how many names are entered
-    function counter() {
-        let count = Object.keys(greetObject)
-        return count.length;
+    async function counter() {
+        const result = await pool.query(`select count(name) as counter from users`)
+        return result.rows[0].counter;
     }
+
     return {
-        adding,
+        addToDatabase,
+        eachNameCount,
         getNames,
         flashMessage,
         greet,
-        namesStored,
-        getCount,
         counter
     }
 }
