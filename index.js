@@ -75,6 +75,7 @@ app.get('/greeted', async function(req, res) {
 app.get('/counter/:username', async function(req, res) {
     let users = req.params.username
     let count = await greetings.eachNameCount(users);
+    console.log(count)
     res.render('people', {
         name: users,
         counter: count

@@ -15,42 +15,84 @@ describe("the Greet Function", function() {
     beforeEach(async function() {
         await pool.query("delete from users");
     });
-    it("getNames function should return the names entered from the database", async function() {
-        let greetFunction = Greetings();
-        await pool.query(INSERT_QUERY, ["Ammaar"]);
-        assert.equal(await greetFunction.getNames(), [{ name: "ammaar" }])
-    });
-    it("eachNameCount function should return the counter for a specific name", async function() {
-        let greetFunction = Greetings();
-        let name = "Mecayle"
-        await greetFunction.addToDatabase(name)
-        assert.equal(await greetFunction.eachNameCount(name), 1)
-    });
-    it("greet function should greet Mecayle in English", async function() {
-        let greetFunction = Greetings();
-        var valSelected = "English";
-        var theName = "Mecayle";
-        assert.equal(await greetFunction.greet(valSelected, theName), "Hello, Mecayle");
-    });
-    it("greet function should greet Flora in Español", async function() {
-        let greetFunction = Greetings();
-        var valSelected = "Español";
-        var theName = "Flora";
-        assert.equal(await greetFunction.greet(valSelected, theName), "Hola, Flora");
-    });
-    it("greet function should greet Sasuki in Japanese", async function() {
-        let greetFunction = Greetings();
-        var valSelected = "Japanese";
-        var theName = "Sasuki";
-        assert.equal(await greetFunction.greet(valSelected, theName), "Kon'nichiwa, Sasuki");
-    });
-    it("counter function should return how many names have been entered", async function() {
-        let greetFunction = Greetings();
-        await pool.query(INSERT_QUERY, ["candy"]);
-        await pool.query(INSERT_QUERY, ["joy"]);
-        await pool.query(INSERT_QUERY, ["honey"]);
+    describe("The getNames function", function() {
+        it("should return 1 name from the database", async function() {
+            let greetFunction = Greetings();
+            await pool.query(INSERT_QUERY, ["ammaar"]);
+            assert.deepEqual(await greetFunction.getNames(), [{ name: "ammaar" }])
+        });
+        it("should return 3 names from the database", async function() {
+            let greetFunction = Greetings();
+            await pool.query(INSERT_QUERY, ["ammaar"]);
+            await pool.query(INSERT_QUERY, ["mecayle"]);
+            await pool.query(INSERT_QUERY, ["amirah"]);
 
-        assert.deepEqual(await greetFunction.counter(), 3);
+            assert.deepEqual(await greetFunction.getNames(), [{ name: "ammaar" }, { name: "mecayle" }, { name: "amirah" }])
+        });
+        it("should return 5 names from the database", async function() {
+            let greetFunction = Greetings();
+            await pool.query(INSERT_QUERY, ["ammaar"]);
+            await pool.query(INSERT_QUERY, ["mecayle"]);
+            await pool.query(INSERT_QUERY, ["amirah"]);
+            await pool.query(INSERT_QUERY, ["jody"]);
+            await pool.query(INSERT_QUERY, ["kagiso"]);
+
+            assert.deepEqual(await greetFunction.getNames(), [{ name: "ammaar" }, { name: "mecayle" }, { name: "amirah" }, { name: "jody" }, { name: "kagiso" }])
+        });
+    });
+    describe("The eachNameCount function", function() {
+        it("should return the counter for a specific name", async function() {
+            let greetFunction = Greetings();
+            let name = "Mecayle"
+            await greetFunction.addToDatabase(name)
+            assert.deepEqual(await greetFunction.eachNameCount(name), 1)
+        });
+    });
+    describe("The greet function", function() {
+        it("should greet Mecayle in English", async function() {
+            let greetFunction = Greetings();
+            var valSelected = "English";
+            var theName = "Mecayle";
+            assert.equal(await greetFunction.greet(valSelected, theName), "Hello, Mecayle");
+        });
+        it("should greet Flora in Español", async function() {
+            let greetFunction = Greetings();
+            var valSelected = "Español";
+            var theName = "Flora";
+            assert.equal(await greetFunction.greet(valSelected, theName), "Hola, Flora");
+        });
+        it("should greet Sasuki in Japanese", async function() {
+            let greetFunction = Greetings();
+            var valSelected = "Japanese";
+            var theName = "Sasuki";
+            assert.equal(await greetFunction.greet(valSelected, theName), "Kon'nichiwa, Sasuki");
+        });
+    });
+    describe("The counter function", function() {
+        it("should return 3 ", async function() {
+            let greetFunction = Greetings();
+            await pool.query(INSERT_QUERY, ["candy"]);
+            await pool.query(INSERT_QUERY, ["joy"]);
+            await pool.query(INSERT_QUERY, ["honey"]);
+
+            assert.deepEqual(await greetFunction.counter(), 3);
+        });
+        it("should return 4", async function() {
+            let greetFunction = Greetings();
+            await pool.query(INSERT_QUERY, ["candy"]);
+            await pool.query(INSERT_QUERY, ["joy"]);
+            await pool.query(INSERT_QUERY, ["honey"]);
+            await pool.query(INSERT_QUERY, ["wilma"]);
+
+
+            assert.deepEqual(await greetFunction.counter(), 4);
+        });
+        it("should return 1", async function() {
+            let greetFunction = Greetings();
+            await pool.query(INSERT_QUERY, ["candy"]);
+
+            assert.deepEqual(await greetFunction.counter(), 1);
+        });
     });
     after(function() {
         pool.end();

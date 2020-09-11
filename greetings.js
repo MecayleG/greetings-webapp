@@ -12,7 +12,7 @@ module.exports = function TheGreetFunction() {
         if (userName !== "") {
             const selectQuery = await pool.query('select name from users where name=$1', [userName])
             if (selectQuery.rowCount === 0) {
-                await pool.query('insert into users (name,counter) values ($1, 0)', [userName])
+                await pool.query('insert into users (name,counter) values ($1, 1)', [userName])
             }
             await pool.query('update users set counter=counter+1 where name=$1', [userName])
         }
@@ -31,7 +31,7 @@ module.exports = function TheGreetFunction() {
     // }
 
     // Get input from user and greet in language selected
-    async function greet(langSelected, theName) {
+    function greet(langSelected, theName) {
         let greet;
 
         if (!langSelected || !theName) {
@@ -63,8 +63,8 @@ module.exports = function TheGreetFunction() {
         addToDatabase,
         eachNameCount,
         getNames,
-        flashMessage,
         greet,
+        flashMessage,
         counter
     }
 }
