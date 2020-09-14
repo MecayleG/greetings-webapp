@@ -12,7 +12,7 @@ module.exports = function TheGreetFunction() {
         if (userName !== "") {
             const selectQuery = await pool.query('select name from users where name=$1', [userName])
             if (selectQuery.rowCount === 0) {
-                await pool.query('insert into users (name,counter) values ($1, 1)', [userName])
+                await pool.query('insert into users (name,counter) values ($1, 0)', [userName])
             }
             await pool.query('update users set counter=counter+1 where name=$1', [userName])
         }
@@ -22,6 +22,11 @@ module.exports = function TheGreetFunction() {
     async function getNames() {
         const names = await pool.query(`select name from users`)
         return names.rows
+    }
+    // return the length of the how many names are entered
+    async function counter() {
+        const result = await pool.query(`select name from users`)
+        return result.rowCount
     }
     // get counter of individual names
     async function eachNameCount(nameEntered) {
@@ -53,10 +58,10 @@ module.exports = function TheGreetFunction() {
             return "enter a name"
         }
     }
-    // return the length of the how many names are entered
-    async function counter() {
-        const result = await pool.query(`select count(name) as counter from users`)
-        return result.rows[0].counter;
+
+    async function reset() {
+        await pool.query(`delete from users`);
+
     }
 
     return {
@@ -65,6 +70,7 @@ module.exports = function TheGreetFunction() {
         getNames,
         greet,
         flashMessage,
-        counter
+        counter,
+        reset
     }
 }

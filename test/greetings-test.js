@@ -10,24 +10,27 @@ describe("the Greet Function", function() {
     const pool = new Pool({
         connectionString
     });
-    const INSERT_QUERY = "insert into users (name,counter) values ($1, 1)";
+    const INSERT_QUERY = "insert into users (name,counter) values ($1, 0)";
 
     beforeEach(async function() {
         await pool.query("delete from users");
     });
     describe("The getNames function", function() {
         it("should return 1 name from the database", async function() {
-            let greetFunction = Greetings();
-            await pool.query(INSERT_QUERY, ["ammaar"]);
-            assert.deepEqual(await greetFunction.getNames(), [{ name: "ammaar" }])
+
+            await pool.query(INSERT_QUERY, ["Mecayle"]);
+
+            const results = await pool.query("select name from users");
+
+            assert.deepEqual([{ name: 'Mecayle' }], results.rows);
+
         });
         it("should return 3 names from the database", async function() {
-            let greetFunction = Greetings();
             await pool.query(INSERT_QUERY, ["ammaar"]);
             await pool.query(INSERT_QUERY, ["mecayle"]);
             await pool.query(INSERT_QUERY, ["amirah"]);
-
-            assert.deepEqual(await greetFunction.getNames(), [{ name: "ammaar" }, { name: "mecayle" }, { name: "amirah" }])
+            const results = await pool.query("select name from users");
+            assert.deepEqual([{ name: "ammaar" }, { name: "mecayle" }, { name: "amirah" }], results.rows)
         });
         it("should return 5 names from the database", async function() {
             let greetFunction = Greetings();
@@ -36,16 +39,33 @@ describe("the Greet Function", function() {
             await pool.query(INSERT_QUERY, ["amirah"]);
             await pool.query(INSERT_QUERY, ["jody"]);
             await pool.query(INSERT_QUERY, ["kagiso"]);
-
-            assert.deepEqual(await greetFunction.getNames(), [{ name: "ammaar" }, { name: "mecayle" }, { name: "amirah" }, { name: "jody" }, { name: "kagiso" }])
+            const results = await pool.query("select name from users");
+            assert.deepEqual([{ name: "ammaar" }, { name: "mecayle" }, { name: "amirah" }, { name: "jody" }, { name: "kagiso" }], results.rows)
         });
     });
     describe("The eachNameCount function", function() {
         it("should return the counter for a specific name", async function() {
-            let greetFunction = Greetings();
-            let name = "Mecayle"
-            await greetFunction.addToDatabase(name)
-            assert.deepEqual(await greetFunction.eachNameCount(name), 1)
+            let name = "Mimi"
+            await pool.query(INSERT_QUERY, [name]);
+
+            let results = await pool.query("select counter from users where name = $1", [name]);
+
+            assert.deepEqual(0, results.rows[0].counter);
+
+        });
+        it("should return the counter for a specific name", async function() {
+            let name = "Amirah"
+            await pool.query(INSERT_QUERY, [name])
+            let results = await pool.query("select counter from users where name = $1", [name]);
+
+            assert.deepEqual(0, results.rows[0].counter)
+        });
+        it("should return the counter for a specific name", async function() {
+            let name = "Jody"
+            await pool.query(INSERT_QUERY, [name])
+            let results = await pool.query("select counter from users where name = $1", [name]);
+
+            assert.deepEqual(0, results.rows[0].counter)
         });
     });
     describe("The greet function", function() {
@@ -70,12 +90,11 @@ describe("the Greet Function", function() {
     });
     describe("The counter function", function() {
         it("should return 3 ", async function() {
-            let greetFunction = Greetings();
             await pool.query(INSERT_QUERY, ["candy"]);
             await pool.query(INSERT_QUERY, ["joy"]);
             await pool.query(INSERT_QUERY, ["honey"]);
-
-            assert.deepEqual(await greetFunction.counter(), 3);
+            const results = await pool.query("select count(name) as counter from users");
+            assert.deepEqual(3, results.rows[0].counter);
         });
         it("should return 4", async function() {
             let greetFunction = Greetings();
@@ -83,15 +102,15 @@ describe("the Greet Function", function() {
             await pool.query(INSERT_QUERY, ["joy"]);
             await pool.query(INSERT_QUERY, ["honey"]);
             await pool.query(INSERT_QUERY, ["wilma"]);
+            const results = await pool.query("select count(name) as counter from users");
 
-
-            assert.deepEqual(await greetFunction.counter(), 4);
+            assert.deepEqual(4, results.rows[0].counter);
         });
         it("should return 1", async function() {
             let greetFunction = Greetings();
             await pool.query(INSERT_QUERY, ["candy"]);
-
-            assert.deepEqual(await greetFunction.counter(), 1);
+            const results = await pool.query("select count(name) as counter from users");
+            assert.deepEqual(1, results.rows[0].counter);
         });
     });
     after(function() {

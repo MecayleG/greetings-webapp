@@ -37,8 +37,12 @@
 		<h1 id="theCount">{{counter}}</h1>      
 		</div>   
   		<button id='peopleGreetedButton' type="button" name="link"><a href="/greeted">People Greeted</a></button>
-		<button onclick="deleteItems()">Clear</button>
+
     </form>
+		<form action="/reset" method="POST">
+			<button class="clearBtn">Clear</button>
+		</form>
+
 	
         
 	</div>

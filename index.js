@@ -40,7 +40,6 @@ app.use(flash());
 
 app.get('/', async function(req, res) {
     let count = await greetings.counter();
-
     res.render('index', {
         counter: count
     })
@@ -51,10 +50,10 @@ app.post('/greeting', async function(req, res) {
     let name = req.body.string
     let flash = greetings.flashMessage(name)
     let getGreet = greetings.greet(radio, name)
-    let count = await greetings.counter();
     await greetings.addToDatabase({
         name
     })
+    let count = await greetings.counter();
 
     if (flash) {
         req.flash('info', 'enter a name');
@@ -75,12 +74,17 @@ app.get('/greeted', async function(req, res) {
 app.get('/counter/:username', async function(req, res) {
     let users = req.params.username
     let count = await greetings.eachNameCount(users);
-    console.log(count)
     res.render('people', {
         name: users,
         counter: count
     })
 });
+app.post('/reset', async function(req, res) {
+    let reset = await greetings.reset();
+    res.redirect('/')
+});
+
+
 
 const PORT = process.env.PORT || 3020;
 
