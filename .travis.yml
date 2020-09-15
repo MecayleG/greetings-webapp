@@ -12,5 +12,5 @@ env:
   - psql -U postgres -d users -a -f users.sql
 
   services:
-  -postgresql
+  - postgresql
   

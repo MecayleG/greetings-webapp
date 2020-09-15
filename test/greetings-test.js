@@ -2,7 +2,6 @@ const assert = require('assert');
 
 const Greetings = require("../greetings");
 
-
 describe("the Greet Function", function() {
     const pg = require("pg");
     const Pool = pg.Pool;
@@ -33,7 +32,6 @@ describe("the Greet Function", function() {
             assert.deepEqual([{ name: "ammaar" }, { name: "mecayle" }, { name: "amirah" }], results.rows)
         });
         it("should return 5 names from the database", async function() {
-            let greetFunction = Greetings();
             await pool.query(INSERT_QUERY, ["ammaar"]);
             await pool.query(INSERT_QUERY, ["mecayle"]);
             await pool.query(INSERT_QUERY, ["amirah"]);
@@ -97,7 +95,6 @@ describe("the Greet Function", function() {
             assert.deepEqual(3, results.rows[0].counter);
         });
         it("should return 4", async function() {
-            let greetFunction = Greetings();
             await pool.query(INSERT_QUERY, ["candy"]);
             await pool.query(INSERT_QUERY, ["joy"]);
             await pool.query(INSERT_QUERY, ["honey"]);
@@ -107,7 +104,6 @@ describe("the Greet Function", function() {
             assert.deepEqual(4, results.rows[0].counter);
         });
         it("should return 1", async function() {
-            let greetFunction = Greetings();
             await pool.query(INSERT_QUERY, ["candy"]);
             const results = await pool.query("select count(name) as counter from users");
             assert.deepEqual(1, results.rows[0].counter);
