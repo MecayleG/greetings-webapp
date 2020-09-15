@@ -113,8 +113,8 @@ describe("the Greet Function", function() {
             assert.deepEqual(1, results.rows[0].counter);
         });
     });
-    // after(function() {
-    //     pool.end();
-    // })
+    after(function() {
+        pool.end();
+    })
 
 });
