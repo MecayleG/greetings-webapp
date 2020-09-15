@@ -8,8 +8,8 @@ env:
 
 
   before_script:
-  - psql -c 'create database users;' -U postgres
-  - psql -U postgres -d users -a -f users.sql
+  - psql -c 'create database greet;' -U postgres
+  - psql -U postgres -d greet -a -f users.sql
 
   services:
   - postgresql
