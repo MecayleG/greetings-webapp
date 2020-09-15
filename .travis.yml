@@ -4,7 +4,7 @@ node_js:
   - 10.19.0
 
 env:
-  - DATABASE_URL=postgresql://postgres@localhost:5432/users
+  - DATABASE_URL=postgresql://postgres@localhost:5432/greet
 
 
   before_script:
