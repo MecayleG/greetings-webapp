@@ -4,12 +4,12 @@ node_js:
   - 10.19.0
 
 env:
-  - DATABASE_URL=postgresql://postgres@localhost:5432/greet
+  - DATABASE_URL=postgresql://postgres@localhost:5432/users;
 
 
   before_script:
-  - psql -c 'create database greet;' -U postgres
-  - psql -U postgres -d greet -a -f users.sql
+  - psql -c 'create database users;' -U postgres
+  - psql -U postgres -d users -a -f users.sql
 
   services:
   - postgresql

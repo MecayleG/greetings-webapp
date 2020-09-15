@@ -1,7 +1,7 @@
 module.exports = function TheGreetFunction() {
     const pg = require("pg");
     const Pool = pg.Pool;
-    const connectionString = process.env.DATABASE_URL || 'postgresql://root:pg123@localhost:5432/greet';
+    const connectionString = process.env.DATABASE_URL || 'postgresql://root:pg123@localhost:5432/users';
 
     const pool = new Pool({
         connectionString
