@@ -15,7 +15,7 @@ body {
 
 .container {
     width: 320px;
-    height: 420px;
+    min-height: 3em;
     background: #fff;
     color: #000;
     top: 50%;
@@ -53,6 +53,10 @@ a {
 
 .clearBtn {
     margin: 5px;
+}
+
+.back {
+    margin: 8px;
 }
 
 @media only screen and (min-device-width: 640px) and (max-device-width: 360px) and (-webkit-min-device-pixel-ratio: 2) {

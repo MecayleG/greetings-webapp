@@ -10,7 +10,7 @@ module.exports = function TheGreetFunction() {
     async function addToDatabase(params) {
         const userName = params.name.toLowerCase();
         if (userName !== "") {
-            const selectQuery = await pool.query('select name from users where name=$1', [userName])
+            const selectQuery = await pool.query('select name from users where lower(name)=lower($1)', [userName])
             if (selectQuery.rowCount === 0) {
                 await pool.query('insert into users (name,counter) values ($1, 0)', [userName])
             }
