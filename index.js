@@ -11,8 +11,16 @@ const session = require('express-session');
 const Greetings = require("./greetings");
 
 const app = express();
+const pg = require("pg");
+const Pool = pg.Pool;
+const connectionString = process.env.DATABASE_URL || 'postgresql://root:pg123@localhost:5432/users';
 
-const greetings = Greetings();
+const pool = new Pool({
+    connectionString
+});
+
+
+const greetings = Greetings(pool);
 
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'

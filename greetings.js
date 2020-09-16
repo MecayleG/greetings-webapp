@@ -1,11 +1,5 @@
-module.exports = function TheGreetFunction() {
-    const pg = require("pg");
-    const Pool = pg.Pool;
-    const connectionString = process.env.DATABASE_URL || 'postgresql://root:pg123@localhost:5432/users';
+module.exports = function TheGreetFunction(pool) {
 
-    const pool = new Pool({
-        connectionString
-    });
     //insert name into database and increment counter if name is entered again 
     async function addToDatabase(params) {
         const userName = params.name.toLowerCase();
