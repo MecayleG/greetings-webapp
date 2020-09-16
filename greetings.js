@@ -31,7 +31,7 @@ module.exports = function TheGreetFunction() {
     // get counter of individual names
     async function eachNameCount(nameEntered) {
         const getCount = await pool.query(`select counter from users where name = $1`, [nameEntered])
-        return getCount.rows[0].counter
+        return getCount.rows[0].counter;
     }
     // }
 
@@ -58,7 +58,7 @@ module.exports = function TheGreetFunction() {
             return "enter a name"
         }
     }
-
+    //to clear the database
     async function reset() {
         await pool.query(`delete from users`);
 

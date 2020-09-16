@@ -42,28 +42,37 @@ describe("the Greet Function", function() {
         });
     });
     describe("The eachNameCount function", function() {
-        it("should return the counter for a specific name", async function() {
+        it("should return the 1 for Mimi", async function() {
             let name = "Mimi"
             await pool.query(INSERT_QUERY, [name]);
 
             let results = await pool.query("select counter from users where name = $1", [name]);
 
-            assert.deepEqual(0, results.rows[0].counter);
+            assert.deepEqual(1, results.rowCount);
 
         });
-        it("should return the counter for a specific name", async function() {
+        it("should return the 3 for Amirah", async function() {
             let name = "Amirah"
             await pool.query(INSERT_QUERY, [name])
+            await pool.query(INSERT_QUERY, [name])
+            await pool.query(INSERT_QUERY, [name])
+
             let results = await pool.query("select counter from users where name = $1", [name]);
 
-            assert.deepEqual(0, results.rows[0].counter)
+            assert.deepEqual(3, results.rowCount)
         });
-        it("should return the counter for a specific name", async function() {
+        it("should return the 5 for Jody", async function() {
             let name = "Jody"
             await pool.query(INSERT_QUERY, [name])
+            await pool.query(INSERT_QUERY, [name])
+            await pool.query(INSERT_QUERY, [name])
+            await pool.query(INSERT_QUERY, [name])
+            await pool.query(INSERT_QUERY, [name])
+
+
             let results = await pool.query("select counter from users where name = $1", [name]);
 
-            assert.deepEqual(0, results.rows[0].counter)
+            assert.deepEqual(5, results.rowCount)
         });
     });
     describe("The greet function", function() {
@@ -104,7 +113,7 @@ describe("the Greet Function", function() {
             assert.deepEqual(4, results.rows[0].counter);
         });
         it("should return 1", async function() {
-            await pool.query(INSERT_QUERY, ["candy"]);
+            await pool.query(INSERT_QUERY, ["Mimi"]);
             const results = await pool.query("select count(name) as counter from users");
             assert.deepEqual(1, results.rows[0].counter);
         });
